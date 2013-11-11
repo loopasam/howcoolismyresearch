@@ -18,22 +18,8 @@ $( document ).ready(function() {
     $("#query").val(queryText);
     $("#loader").show();
     //Trigger the search
-    console.log("plotting...");
     var defers = [], defer;
     
-    //Do the ajax call to know the number of article as in endDate
-    var query = endDate + "/01/01:" + endDate + "/12/31[edat]";
-    defer = $.ajax({
-        type: "GET",
-        async: true,
-        url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
-        data: { db: "pubmed", term: query},
-        error: function (err) {
-          console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
-        }
-    });
-    defers.push(defer);
-
     //Call for each date - handled as promises, namely wait for the queue of queries to be done
     //before callback
     for (var date = startDate; date <= endDate; date++) {
@@ -43,7 +29,11 @@ $( document ).ready(function() {
         type: "GET",
         async: true,
         url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
-        data: { db: "pubmed", term: query}
+        data: { db: "pubmed", term: query},
+        error: function (err) {
+          $("#loader").hide();
+          $("#error").show();
+        }
       });
       
       defers.push(defer);
@@ -55,9 +45,6 @@ $.when.apply(window, defers).done(function(){
     var labels = [];
     var data = [];
     
-    var currentYearRequest = defers.shift();
-    var currentYearnumber = $(currentYearRequest.responseXML).find('eSearchResult > Count').text();
-    resultsPerYear.push(parseInt(currentYearnumber));
     
     $.each(defers, function(index, request) {
       var number = $(request.responseXML).find('eSearchResult > Count').text();
@@ -85,10 +72,12 @@ function verdict(data){
   var now = data[data.length-1];
   var then = data[data.length-11];
   var cool = "Sorry, it's uncool.";
+  var twitterMessage = "My research is #uncool! So-called evidences: ";
   if(then-now < 0){
     cool = "Yeah, it's cool.";
+    twitterMessage = "My research is #cool! Evidences: ";
   }
-  updateTwitterValues(window.location.href);
+  updateTwitterValues(window.location.href, twitterMessage);
   $("#verdict > span").text(cool);
   $("#verdict").fadeIn(5000);
   $("#twitter-share-section").fadeIn(5000);
@@ -114,15 +103,15 @@ function plot(labels, data){
   
   var width = $("body").width();
   $("#canvas").attr("width", width).show();
+  $("#title-chart").show();
   $("#loader").hide();
   var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartDefinition, options);
 
 }
 
-function updateTwitterValues(share_url) {
-  console.log(share_url);
+function updateTwitterValues(share_url, twitterMessage) {
   $("#twitter-share-section").html('&nbsp;'); 
-  $("#twitter-share-section").html('<a href="https://twitter.com/share" class="twitter-share-button" data-url="' + share_url +'" data-size="large" data-text="How cool is your research?" data-count="none">Tweet</a>');
+  $("#twitter-share-section").html('<a href="https://twitter.com/share" class="twitter-share-button" data-url="' + share_url +'" data-size="large" data-text="' + twitterMessage + '" data-count="none">Tweet</a>');
   twttr.widgets.load();
 }
 

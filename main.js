@@ -88,8 +88,10 @@ function verdict(data){
   if(then-now < 0){
     cool = "Yeah, it's cool.";
   }
+  updateTwitterValues(window.location.href);
   $("#verdict > span").text(cool);
   $("#verdict").fadeIn(5000);
+  $("#twitter-share-section").fadeIn(5000);
 }
 
 
@@ -116,3 +118,11 @@ function plot(labels, data){
   var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartDefinition, options);
 
 }
+
+function updateTwitterValues(share_url) {
+  console.log(share_url);
+  $("#twitter-share-section").html('&nbsp;'); 
+  $("#twitter-share-section").html('<a href="https://twitter.com/share" class="twitter-share-button" data-url="' + share_url +'" data-size="large" data-text="How cool is your research?" data-count="none">Tweet</a>');
+  twttr.widgets.load();
+}
+

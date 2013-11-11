@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="bootstrap.min.css">
-
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -18,14 +18,15 @@
     <script src="bootstrap.min.js"></script>
     <script type="text/javascript" src="Chart.min.js"></script>
     <script src="main.js"></script>
-    
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+
   </head>
   <body class="text-center">
 
 <div class="jumbotron">
     <div class="container">
     <h1>How cool is my research?</h1>
-    <p><strong>cool</strong> [/ku:l/] <em>informal adjective</em>: fashionably attractive; recently generating more interest than expected. <a href="https://github.com/loopasam/howcoolismyresearch">Code & method</a>.</p>
+    <p><strong>cool</strong> [/ku:l/] <em>informal adjective</em>: fashionably attractive; recently generating more interest than expected.</p><p> Works only for biomedical sciences, see <a href="https://github.com/loopasam/howcoolismyresearch">code & method</a>.</p>
 
     <form id="form" role="form" method="POST" action="/">
 
@@ -36,8 +37,7 @@
       </span>
       
     </div>
-<!-- twitter
-mention and links -->
+
    
 
     </form>
@@ -60,7 +60,7 @@ mention and links -->
     <div style="display:none" id="loader"><img src="ajax-loader.gif" /></div>
 
     <h1 id="verdict" style="display:none"><span class="label label-primary"></span></h1>
-
+    <div id="twitter-share-section" style="display:none; margin-top: 20px;"></div>
     <canvas id="canvas" style="display:none" height="250" width="600"></canvas>
     
 

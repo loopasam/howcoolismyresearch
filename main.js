@@ -1,6 +1,4 @@
-//HTML clean up
-//Doc GH
-
+//Main JS script
 $( document ).ready(function() {
   var url = decodeURIComponent(window.location.href);
   var isolator = /.*#(.*)/g;
@@ -34,6 +32,7 @@ $( document ).ready(function() {
         url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
         data: { db: "pubmed", term: query},
         error: function (err) {
+          //Show error message
           $("#loader").hide();
           $("#error").show();
         }
@@ -42,32 +41,27 @@ $( document ).ready(function() {
       defers.push(defer);
     }
 
-$.when.apply(window, defers).done(function(){
-    var counter = 0;
-    var date = startDate;
-    var labels = [];
-    var data = [];
-    
-    
-    $.each(defers, function(index, request) {
-      var number = $(request.responseXML).find('eSearchResult > Count').text();
-      labels.push(date);
-      var dateNumber = resultsPerYear.shift();
-      var standardisedValue = (parseInt(number)/dateNumber)*10000;
-      data.push(standardisedValue);
-      date += 1;
-  });
-  plot(labels, data);
-  verdict(data);
-});
-}
-  }
-  
+      //Handles the defered array
+      $.when.apply(window, defers).done(function(){
+        var counter = 0;
+        var date = startDate;
+        var labels = [];
+        var data = [];
+   
+        $.each(defers, function(index, request) {
+          var number = $(request.responseXML).find('eSearchResult > Count').text();
+          labels.push(date);
+          var dateNumber = resultsPerYear.shift();
+          var standardisedValue = (parseInt(number)/dateNumber)*10000;
+          data.push(standardisedValue);
+          date += 1;
+        });
 
-  //Show AJAX loader gif
-  //standardise against static values - update the number for 2013
-  //Show the graph
-  // Twitter button
+        plot(labels, data);
+        verdict(data);
+      });
+    }
+  }
 });
 
 //Calculate coolness over 10 years
@@ -86,7 +80,7 @@ function verdict(data){
   $("#twitter-share-section").fadeIn(5000);
 }
 
-
+//Plot the canvas chart
 function plot(labels, data){
 
   var lineChartDefinition = {
@@ -112,6 +106,7 @@ function plot(labels, data){
 
 }
 
+//Update the twitter button and render it
 function updateTwitterValues(share_url, twitterMessage) {
   $("#twitter-share-section").html('&nbsp;'); 
   $("#twitter-share-section").html('<a href="https://twitter.com/share" class="twitter-share-button" data-url="' + share_url +'" data-size="large" data-text="' + twitterMessage + '" data-count="none">Tweet</a>');

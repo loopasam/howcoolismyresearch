@@ -1,12 +1,12 @@
 # How cool is my research?
 
-Experiment on coolness. Feel free to [send me](http://samuelcroset.com/contact) feedback and comments.
+Experiment on coolness of biomedical research, by [Samuel Croset](http://samuelcroset.com/): http://howcoolismyresear.ch/
 
 ## Method
 
 ### Graph
 
-Each dot represents the standardised frequency of documents retrieved for the keywords entered on PubMed, multiplied by 1'000; the higher, the more articles exists on the topic.
+Each dot represents the standardised frequency of documents retrieved for the keywords entered on [PubMed](http://www.ncbi.nlm.nih.gov/pubmed/), multiplied by 1'000; the higher, the more articles exists on the topic.
 
 ### Coolness
 

@@ -1,3 +1,6 @@
+//HTML clean up
+//Doc GH
+
 $( document ).ready(function() {
   var url = decodeURIComponent(window.location.href);
   var isolator = /.*#(.*)/g;
@@ -103,7 +106,7 @@ function plot(labels, data){
   
   var width = $("body").width();
   $("#canvas").attr("width", width).show();
-  $("#title-chart").show();
+  $("#title-chart").fadeIn(5000);
   $("#loader").hide();
   var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartDefinition, options);
 
